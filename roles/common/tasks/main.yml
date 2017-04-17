@@ -1,0 +1,10 @@
+---
+# This Task is used to update the apt-get source
+
+- name: Copy sources.list file to dest machines
+  copy: src=aliyun.sources.list dest=/etc/apt/sources.list
+  sudo: yes
+
+- name: Update apt-get sources
+  apt: update_cache=yes
+  sudo: yes

@@ -1,0 +1,35 @@
+---
+# This Task install repmgr tools to dest machines
+
+- name: Add specified repository
+  apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ {{ ansible_distribution_release }}-pgdg main' 
+    state=present filename='pgdg' update_cache=yes
+  sudo: yes
+
+- name: Install wget and ca-certificates etc
+  apt: name={{ item }}
+  with_items:
+  - wget
+  - ca-certificates
+  sudo: yes
+
+- name: Import the repository key from postgresql.org
+  apt_key: url="https://www.postgresql.org/media/keys/ACCC4CF8.asc" state=present
+  sudo: yes
+
+- name: Update apt sources
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install postgresql and pgadmin3 etc
+  apt: name={{ item }}
+  with_items:
+  - postgresql-9.5
+  - pgadmin3
+  - postgresql-contrib-9.5
+  - postgis
+  - postgresql-9.5-postgis-2.3
+  - repmgr
+  - postgresql-9.5-repmgr
+  sudo: yes
+  notify: restart postgresql
