@@ -1,0 +1,6 @@
+---
+# Default variables
+
+db_user: postgres
+db_name: created_by_ansible
+worker_group_name: pgworkers

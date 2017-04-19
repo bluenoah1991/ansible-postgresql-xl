@@ -1,0 +1,47 @@
+---
+# This Task deploy Citus PostgreSQL cluster
+
+- name: Install Python Package Index
+  apt: name=python-pip
+  sudo: yes
+
+- name: Install dependencies for support SSL in python < 2.7.9
+  shell: pip install {{ item }}
+  with_items:
+  - urllib3
+  - pyopenssl
+  - ndg-httpsclient
+  - pyasn1
+  sudo: yes
+
+- name: Download Citus magic script
+  get_url: url=https://install.citusdata.com/community/deb.sh dest=/tmp/deb.sh mode=u+x
+  sudo: yes
+
+- name: Execute the magic script
+  shell: /tmp/deb.sh
+  sudo: yes
+
+- name: Install PostgreSQL + Citus and initialize database
+  apt: name=postgresql-9.6-citus-6.1
+  sudo: yes
+
+- name: Preload citus extension
+  shell: pg_conftool 9.6 main set shared_preload_libraries citus
+  sudo: yes
+
+- name: Configure connection
+  shell: pg_conftool 9.6 main set listen_addresses '*'
+  sudo: yes
+
+- name: Update pg_hba.conf file
+  lineinfile: path=/etc/postgresql/9.6/main/pg_hba.conf 
+    line={{ item }}
+  vars: 
+    net_mask: "{{ ansible_default_ipv4.network }}/{{ ansible_default_ipv4.netmask }}"
+  with_items:
+  - "host   all   all   {{ net_mask | ipaddr('net') }}   trust"
+  - "host   all   all   127.0.0.1/32   trust"
+  - "host   all   all   ::1/128   trust"
+  sudo: yes
+  notify: restart postgresql

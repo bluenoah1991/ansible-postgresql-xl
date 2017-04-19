@@ -3,5 +3,13 @@
   remote_user: ubuntu
   roles: 
   - common
-  - postgresql
   - ssl
+  - citus
+  - citus_db
+
+- hosts: pgmasters
+  remote_user: ubuntu
+  roles:
+  - citus_master
+  tags:
+  - pgmasters

@@ -1,0 +1,8 @@
+---
+# This task is add worker nodes metadata to master nodes
+
+- name: Add workers node information
+  shell: psql -c "SELECT * from master_add_node('{{ item }}', 5432);" -d {{ db_name }}
+  with_items: "{{ groups[worker_group_name] }}"
+  become: yes
+  become_user: "{{ db_user }}"

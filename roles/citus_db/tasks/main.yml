@@ -1,0 +1,12 @@
+---
+# This Task create a new distributed database to citus cluster
+
+- name: Create a new distributed database
+  shell: psql -c "CREATE DATABASE {{ db_name }}" || /bin/true
+  become: yes
+  become_user: "{{ db_user }}"
+
+- name: Add the citus extension
+  shell: psql -c "CREATE EXTENSION citus;" -d {{ db_name }} || /bin/true
+  become: yes
+  become_user: "{{ db_user }}"
