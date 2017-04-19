@@ -1,12 +1,19 @@
 ---
 # This Task create a new distributed database to citus cluster
 
+- name: Install python dependency modules for ansible postgresql_* modules
+  apt: name={{ item }}
+  with_items:
+  - libpq-dev
+  - python-psycopg2
+  sudo: yes
+
 - name: Create a new distributed database
-  shell: psql -c "CREATE DATABASE {{ db_name }}" || /bin/true
+  postgresql_db: name={{ db_name }}
   become: yes
   become_user: "{{ db_user }}"
 
 - name: Add the citus extension
-  shell: psql -c "CREATE EXTENSION citus;" -d {{ db_name }} || /bin/true
+  postgresql_ext: name=citus db={{ db_name }}
   become: yes
   become_user: "{{ db_user }}"
