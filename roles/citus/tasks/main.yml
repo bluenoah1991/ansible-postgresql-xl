@@ -34,6 +34,10 @@
   shell: pg_conftool 9.6 main set listen_addresses '*'
   sudo: yes
 
+- name: Set max-connections to 1000
+  shell: pg_conftool 9.6 main set max_connections 1000
+  sudo: yes
+
 - name: Update pg_hba.conf file
   lineinfile: path=/etc/postgresql/9.6/main/pg_hba.conf 
     line={{ item }}
