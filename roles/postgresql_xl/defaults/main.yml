@@ -1,0 +1,6 @@
+---
+# Default variables
+
+release_tarball_name: postgres-xl-9.5r1.5.tar.gz
+release_tarball_short_name: postgres-xl-9.5r1.5
+postgresql_data_dir: /var/lib/pgsql

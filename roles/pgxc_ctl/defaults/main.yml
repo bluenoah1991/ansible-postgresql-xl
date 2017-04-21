@@ -1,0 +1,11 @@
+---
+# Default variables
+
+postgresql_data_dir: /var/lib/pgsql
+gtm_group_name: pgxl_gtm
+gtm_slaves_group_name: pgxl_gtm_slaves
+gtm_proxies_group_name: pgxl_gtm_proxies
+coordinators_group_name: pgxl_coordinators
+coordinator_slaves_group_name: pgxl_coordinator_slaves
+datanodes_group_name: pgxl_datanodes
+datanode_slaves_group_name: pgxl_datanode_slaves

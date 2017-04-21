@@ -1,0 +1,56 @@
+---
+# This task deploy PostgreSQL-XL roles using pgxc_ctl
+
+- name: Generate pgxc_ctl directory and default configuration
+  shell: pgxc_ctl prepare config empty
+  become: yes
+  become_user: postgres
+
+- name: Add gtm master node
+  shell: pgxc_ctl add gtm master gtm_{{ item.0 }} {{ item.1 }} 6668 {{ postgresql_data_dir }}/data_gtm_{{ item.0 }}
+  with_indexed_items: "{{ groups[gtm_group_name] }}"
+  environment:
+    pgxcOwner: postgres
+    pgxcUser: postgres
+  become: yes
+  become_user: postgres
+
+- name: Add gtm slave nodes
+  shell: pgxc_ctl add gtm slave gtm_slave_{{ item.0 }} {{ item.1 }} 6668 {{ postgresql_data_dir }}/data_gtm_slave_{{ item.0 }}
+  with_indexed_items: "{{ groups[gtm_slaves_group_name] }}"
+  environment:
+    pgxcOwner: postgres
+    pgxcUser: postgres
+  become: yes
+  become_user: postgres
+
+- name: Add gtm proxy nodes
+  shell: pgxc_ctl add gtm_proxy gtm_proxy_{{ item.0 }} {{ item.1 }} 6666 {{ postgresql_data_dir }}/data_gtm_proxy_{{ item.0 }}
+  with_indexed_items: "{{ groups[gtm_proxies_group_name] }}"
+  environment:
+    pgxcOwner: postgres
+    pgxcUser: postgres
+  become: yes
+  become_user: postgres
+
+- name: Add coordinator master nodes
+  shell: pgxc_ctl add coordinator master coord_{{ item.0 }} {{ item.1 }} 5432 6667 {{ postgresql_data_dir }}/data_coord_{{ item.0 }}
+  with_indexed_items: "{{ groups[coordinators_group_name] }}"
+  environment:
+    pgxcOwner: postgres
+    pgxcUser: postgres
+  become: yes
+  become_user: postgres
+
+# TODO coordinator slave nodes
+
+- name: Add datanode master nodes
+  shell: pgxc_ctl add datanode master datanode_{{ item.0 }} {{ item.1 }} 5433 6667 {{ postgresql_data_dir }}/data_{{ item.0 }} {{ postgresql_data_dir }}/data_xlog_{{ item.0 }}
+  with_indexed_items: "{{ groups[datanodes_group_name] }}"
+  environment:
+    pgxcOwner: postgres
+    pgxcUser: postgres
+  become: yes
+  become_user: postgres
+
+# TODO datanode slave nodes

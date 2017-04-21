@@ -1,0 +1,64 @@
+---
+# This Task deploy PostgreSQL-XL to dest machines
+
+- name: Install Requirements
+  apt: name={{ item }}
+  with_items:
+  - make
+  - gcc
+  - tar
+  - zlib1g
+  - zlib1g-dev
+  - perl
+  - libperl-dev
+  - libpython-dev
+  - tcl-dev
+  - libkrb5-dev
+  - libssl-dev
+  - docbook 
+  - docbook-dsssl 
+  - docbook-xsl 
+  - libxml2-utils 
+  - openjade1.3 
+  - opensp 
+  - xsltproc
+  - libreadline-dev
+  - flex
+  - bison
+  sudo: yes
+
+- name: Unarchive tarball file
+  unarchive: src={{ release_tarball_name }} dest=/usr/local/src
+  sudo: yes
+
+- name: Configure sources
+  shell: ./configure --bindir=/usr/bin chdir=/usr/local/src/{{ release_tarball_short_name }}
+
+- name: Build main repository
+  shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}
+
+- name: Install to system
+  shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}
+  sudo: yes
+
+- name: Build pgxc_ctl
+  shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}/contrib/pgxc_ctl
+
+- name: Install pgxc_ctl to system
+  shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}/contrib/pgxc_ctl
+  sudo: yes
+
+- name: Add User postgres
+  user: name=postgres shell=/bin/bash
+  sudo: yes
+
+- name: Set Enviroment Path
+  shell: echo 'export PATH=/usr/local/pgsql/bin:$PATH' >> /home/postgres/.bashrc
+  become: yes
+  become_user: postgres
+
+- name: Create data directory
+  file: path={{ postgresql_data_dir }} state=directory owner=postgres group=postgres
+  sudo: yes
+
+

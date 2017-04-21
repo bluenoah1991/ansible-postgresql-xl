@@ -42,10 +42,41 @@
 
 ## db-[99:101]-node.example.com
 
-[pgmasters]
+## Citus
+
+# [pgmasters]
+# 192.168.1.1
+# 
+# [pgworkers]
+# 192.168.1.2
+# 192.168.1.3
+# 192.168.1.4
+
+## PostgreSQL-XL
+
+[pgxl_gtm]
 192.168.1.1
 
-[pgworkers]
+[pgxl_gtm_slaves]
 192.168.1.2
+
+[pgxl_gtm_proxies]
 192.168.1.3
 192.168.1.4
+
+[pgxl_coordinators]
+192.168.1.3
+192.168.1.4
+
+[pgxl_coordinator_slaves]
+192.168.1.5
+192.168.1.6
+
+[pgxl_datanodes]
+192.168.1.3
+192.168.1.4
+
+[pgxl_datanode_slaves]
+192.168.1.5
+192.168.1.6
+

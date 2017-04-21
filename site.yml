@@ -4,12 +4,29 @@
   roles: 
   - common
   - ssl
-  - citus
-  - citus_db
+  tags:
+  - basic
 
-- hosts: pgmasters
+- hosts: all
+  remote_user: ubuntu
+  vars:
+    special_user: postgres # For ssl module
+  roles: 
+  - postgresql_xl
+  - ssl
+  tags:
+  - postgresql_xl
+
+- hosts: all
   remote_user: ubuntu
   roles:
-  - citus_master
+  - known_hosts
   tags:
-  - pgmasters
+  - known_hosts
+
+- hosts: pgxl_gtm
+  remote_user: ubuntu
+  roles:
+  - pgxc_ctl
+  tags:
+  - pgxc_ctl
