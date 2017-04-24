@@ -24,6 +24,20 @@
   tags:
   - known_hosts
 
+#- hosts: pgxl_coordinators
+#  remote_user: ubuntu
+#  roles:
+#  - pgxc_ctl_coord_initdb
+#  tags:
+#  - pgxc_ctl_coord_initdb
+#
+#- hosts: pgxl_datanodes
+#  remote_user: ubuntu
+#  roles:
+#  - pgxc_ctl_datanode_initdb
+#  tags:
+#  - pgxc_ctl_datanode_initdb
+
 - hosts: pgxl_gtm
   remote_user: ubuntu
   roles:

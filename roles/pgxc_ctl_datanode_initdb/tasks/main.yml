@@ -1,0 +1,8 @@
+---
+# This task create datanode database cluster for PostgreSQL-XL
+
+- name: Generate datanode database cluster
+  shell: initdb -D {{ postgresql_data_dir }}/data_datanode --nodename datanode_{{ nodeName }}
+  become: yes
+  become_user: postgres
+

@@ -58,25 +58,25 @@
 192.168.1.1
 
 [pgxl_gtm_slaves]
-192.168.1.2
+192.168.1.2 nodeName=two
 
 [pgxl_gtm_proxies]
-192.168.1.3
-192.168.1.4
+192.168.1.3 nodeName=three
+192.168.1.4 nodeName=four
 
 [pgxl_coordinators]
-192.168.1.3
-192.168.1.4
+192.168.1.3 nodeName=three
+192.168.1.4 nodeName=four
 
 [pgxl_coordinator_slaves]
-192.168.1.5
-192.168.1.6
+192.168.1.5 nodeName=five
+192.168.1.6 nodeName=six
 
 [pgxl_datanodes]
-192.168.1.3
-192.168.1.4
+192.168.1.3 nodeName=three
+192.168.1.4 nodeName=four
 
 [pgxl_datanode_slaves]
-192.168.1.5
-192.168.1.6
+192.168.1.5 nodeName=five
+192.168.1.6 nodeName=six
 
