@@ -1,4 +1,4 @@
-# PG_Cluster_Playbook
+# Ansible PostgreSQL-XL
 PostgreSQL Cluster Ansible Playbook
 
 ### Config Manage Host  
