@@ -44,3 +44,11 @@
   - pgxc_ctl
   tags:
   - pgxc_ctl
+
+- hosts: pgxl_haproxy
+  remote_user: ubuntu
+  roles:
+  - postgresql_haproxy
+  tags:
+  - postgresql_haproxy
+

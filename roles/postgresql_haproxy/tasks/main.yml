@@ -1,0 +1,28 @@
+---
+# This Task install HAProxy to dest host for PostgreSQL-XL cluster
+
+- name: Install software-properties-common
+  apt: name=software-properties-common
+  sudo: yes
+
+- name: Add repository haproxy
+  apt_repository: repo='ppa:vbernat/haproxy-1.7'
+  sudo: yes
+
+- name: Update apt sources
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install haproxy
+  apt: name=haproxy
+  sudo: yes
+
+- name: Update HAProxy config
+  vars:
+    haproxy_upstreams: "{{ groups[coordinators_group_name] }}"
+  template: src=templates/haproxy.cfg dest=/etc/haproxy/haproxy.cfg backup=yes
+  sudo: yes
+
+- name: Restart HAProxy
+  service: name=haproxy state=restarted
+  sudo: yes

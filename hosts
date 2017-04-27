@@ -80,3 +80,6 @@
 192.168.1.5 nodeName=five
 192.168.1.6 nodeName=six
 
+[pgxl_haproxy]
+192.168.1.7
+

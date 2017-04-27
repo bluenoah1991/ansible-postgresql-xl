@@ -3,8 +3,9 @@ PostgreSQL Cluster Ansible Playbook
 
 ### Config Manage Host  
 
-1. Setting **allow_world_readable_tmpfiles=true** in ansible.cfg  
-2. Install python package **netaddr**  
+1. Setting **allow_world_readable_tmpfiles = True** in ansible.cfg  
+2. Setting **host_key_checking = False** in ansible.cfg  
+3. Install python package **netaddr**  
 
 ### How to use?
 
