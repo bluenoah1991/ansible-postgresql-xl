@@ -1,0 +1,42 @@
+---
+# This Task install PostGIS extension to dest machine
+
+- name: Install Requirements
+  apt: name={{ item }}
+  with_items:
+  - build-essential
+  - libgeos-c1
+  - libgdal-dev
+  - libproj-dev
+  - libjson0-dev
+  - libxml2-dev
+  - libxml2-utils
+  - xsltproc
+  - docbook-xsl
+  - docbook-mathml
+  become: yes
+
+- name: Unarchive tarball file
+  unarchive: src={{ release_tarball_name }} dest=/usr/local/src
+  sudo: yes
+
+- name: Configure sources
+  shell: ./configure chdir=/usr/local/src/{{ release_tarball_short_name }}
+  sudo: yes
+
+- name: Build main repository
+  shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}
+  sudo: yes
+
+- name: Install to system
+  shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}
+  sudo: yes
+
+- name: Persistent configuration
+  shell: ldconfig
+  sudo: yes
+
+- name: Install comments to system
+  shell: make comments-install chdir=/usr/local/src/{{ release_tarball_short_name }}
+  sudo: yes
+

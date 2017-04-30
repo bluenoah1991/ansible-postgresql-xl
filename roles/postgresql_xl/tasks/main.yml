@@ -48,6 +48,20 @@
   shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}/contrib/pgxc_ctl
   sudo: yes
 
+- name: Build pg_config
+  shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}/src/bin/pg_config
+
+- name: Install pg_config to system
+  shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}/src/bin/pg_config
+  sudo: yes
+
+- name: Build contrib
+  shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}/contrib
+
+- name: Install contrib to system
+  shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}/contrib
+  sudo: yes
+
 - name: Add User postgres
   user: name=postgres shell=/bin/bash
   sudo: yes

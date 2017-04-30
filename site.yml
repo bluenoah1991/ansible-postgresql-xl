@@ -52,3 +52,10 @@
   tags:
   - postgresql_haproxy
 
+- hosts: pgxl_datanodes
+  remote_user: ubuntu
+  roles:
+  - postgresql_postgis
+  tags:
+  - postgis
+

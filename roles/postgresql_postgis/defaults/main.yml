@@ -1,0 +1,5 @@
+---
+# Default variables
+
+release_tarball_name: postgis-2.2.5.tar.gz
+release_tarball_short_name: postgis-2.2.5
