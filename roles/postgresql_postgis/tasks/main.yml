@@ -20,23 +20,30 @@
   unarchive: src={{ release_tarball_name }} dest=/usr/local/src
   sudo: yes
 
+- name: Set user and group for PostGIS home dir
+  file: path=/usr/local/src/{{ release_tarball_short_name }} state=directory recurse=yes
+    owner=postgres group=postgres
+  become: yes
+
 - name: Configure sources
   shell: ./configure chdir=/usr/local/src/{{ release_tarball_short_name }}
-  sudo: yes
+  become: yes
+  become_user: postgres
 
 - name: Build main repository
   shell: make chdir=/usr/local/src/{{ release_tarball_short_name }}
-  sudo: yes
+  become: yes
+  become_user: postgres
 
 - name: Install to system
   shell: make install chdir=/usr/local/src/{{ release_tarball_short_name }}
-  sudo: yes
+  become: yes
 
 - name: Persistent configuration
   shell: ldconfig
-  sudo: yes
+  become: yes
 
 - name: Install comments to system
   shell: make comments-install chdir=/usr/local/src/{{ release_tarball_short_name }}
-  sudo: yes
+  become: yes
 
